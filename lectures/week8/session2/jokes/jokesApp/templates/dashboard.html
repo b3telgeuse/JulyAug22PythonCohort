@@ -10,9 +10,9 @@
 </head>
 <body>
     <header>
-        <h1>Welcome {{user.firstName}}</h1>
+        <h1>Welcome {{user.fullName}}</h1>
         <nav>
-
+            {% block menu %} {% include 'menu.html' %} {% endblock menu %}
         </nav>
     </header>
     <div class="messages">

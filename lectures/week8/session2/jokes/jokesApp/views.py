@@ -45,9 +45,51 @@ def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('/')
     user = User.objects.get(id=request.session['user_id'])
-    jokes = Joke.objects.all().values()
+    # will only render the current user's jokes
+    jokes = Joke.objects.filter(user_id=user)
     context = {
         'user': user,
         'jokes': jokes
     }
+    return render(request, 'dashboard.html', context)
+
+def jokAPI(request):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'user': user,
+    }
+    return render(request, 'jokeAPI.html', context)
+
+def createJoke(request):
+    Joke.objects.create(
+        question = request.POST['question'],
+        punchline = request.POST['punchline'],
+        user = User.objects.get(id=request.session['user_id'])
+    )
+    messages.error(request, "Joke added to database")
+    return redirect('/dashboard/')
+
+def allUsers(request):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    user = User.objects.get(id=request.session['user_id'])
+    users = User.objects.all().values()
+    context = {
+        'user': user,
+        'users': users
+    }
+    return render(request, 'user.html', context)
+
+def otherUser(request, user_id):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    user = User.objects.get(id=request.session['user_id'])
+    jokes = Joke.objects.filter(user_id=user_id)
+    context = {
+        'user': user,
+        'jokes': jokes
+    }
+    # Allows us to use the same html page to render other user's jokes based off the link
     return render(request, 'dashboard.html', context)
