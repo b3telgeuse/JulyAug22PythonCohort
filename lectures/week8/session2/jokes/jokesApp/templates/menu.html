@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    {% block menu %}
+    <a href="/">Dashboard</a>
+    <a href="/jokeAPI/">Joke API's</a>
+    <a href="/admin/">Add Joke</a>
+    <!-- For now the add joke can take us to the Django admin page to manually add a joke that we want to add vs one that is added via the api Just make sure you create a super users -->
+    <a href="/users/">Users</a>
+    <a href="/logout/">Logout</a>
+    {% endblock menu %}
+</body>
+</html>
